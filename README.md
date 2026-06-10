@@ -1,19 +1,18 @@
-# Contribution 1: Reporting/Bug: Fixtures for 2025 should not include "Apr-Dec production data" field
+# Contribution 1: [React Doctor] mouse-events-have-key-events: onMouseOver must be accompanied by onFocus for accessibility (2 occurrences)
+ #27902
 
 **Contribution Number:** 1
 **Student:** Richard Gabelman 
-**Issue:** [\[GitHub issue link\] ](https://github.com/bcgov/cas-registration/issues/4633) 
+**Issue:** [\[GitHub issue link\] ](https://github.com/wso2/product-is/issues/27902) 
 **Status:** Phase I Complete
 
 ---
 
 ## Why I Chose This Issue
 
-I was looking through the provided list of issues with tech stacks I have experience in. I noticed the organization that controls the repository for this issue was listed as bcgov. Looking into it, that refers to the actual government of British Columbia, Canada. 
+I was looking through the provided list of issues with tech stacks I have experience in. I found this project which uses two technologies I'm very familiar with (JS and CSS), and a technology that I was familiar with a long time ago where I could use a refresher.
 
-I thought it was interesting that a government would have open-source codebases where anybody (even a foreign national like me) could contribute. I have a passion for civic tech and have created projects myself that deal with the interface of technology and public policy. 
-
-I hope to learn both the typical lessons of navigating and contributing to a large codebase while also learning any potential unique aspects of contributing code to government services.
+The issue was in a cluster of issues from the same repository. Most of these other issues had many times more occurrences of the specified issue. This one only has two occurrences (and really after looking into it, really could be considered just one occurence). That seems managable and completable in the time alotted. 
 
 ---
 
@@ -21,19 +20,19 @@ I hope to learn both the typical lessons of navigating and contributing to a lar
 
 ### Problem Description
 
-A generated supplementary report `Review Changes` erroneously indicates some data was deleted due to the presence of a field in a previous state that isn't included (as it isn't necessary) in the current state. This only impacts developers as the previous state in production will never include the field.
+A React component contains a div with the onMouseOver and onMouseOut props that toggle the active state. React Doctor is a tool which detects anti-patterns in React apps. One of the uses seems to be identifying accessibility issues like this where a mouse is assumed when that is not necessarily a tool a user has the ability of using. Thus, we need to add the corresponding keyboard versions of onMouseOver and onMouseOut so the functionality is identical when using the component with a keyboard.
 
 ### Expected Behavior
 
-`Review Changes` should only show actual changes. The field `Production Data for Apr 1 - Dec 31 2024` should not appear, and should not show as deleted.
+Mousing on and off the div should result in the same behavior (the toggling of the active state) as focusing and unfocusing the div using a keyboard.
 
 ### Current Behavior
 
-`Review Changes` shows a field `Production Data for Apr 1 - Dec 31 2024` as having been deleted when that field isn't relevant.
+Focusing and unfocusing the div using a keyboard never toggles the active state. 
 
 ### Affected Components
 
-This impacts the Reporting Page. I already believe the issue to be within `/bc_ops/reporting/fixtures/mock/report_product.json`.
+This impacts the `validation-error-boundary.tsx` component which is located at `admin.flow-builder-core.v1/components/validation-panel/validation-error-boundary.tsx`.
 
 ---
 
