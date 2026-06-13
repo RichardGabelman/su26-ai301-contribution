@@ -4,7 +4,7 @@
 **Contribution Number:** 1
 **Student:** Richard Gabelman 
 **Issue:** [\[GitHub issue link\] ](https://github.com/wso2/product-is/issues/27902) 
-**Status:** Phase I Complete
+**Status:** Phase 2 Complete
 
 ---
 
@@ -40,19 +40,34 @@ This impacts the `validation-error-boundary.tsx` component which is located at `
 
 ### Environment Setup
 
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
+Used the project's `Setting Up Development Environment` and `Build & Run` guides.
+
+React Doctor is the tool used to identify the issue. It is not provided in the project.
 
 ### Steps to Reproduce
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+1. Install React Doctor's CLI
+2. Run React Doctor on the file in question
+3. Observe the warning on Lines 114-115 of `admin.flow-builder-core.v1/components/validation-panel/validation-error-boundary.tsx`
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** [Link to commit in your fork]
-- **Screenshots/logs:** [If applicable]
-- **My findings:** [What you discovered during reproduction]
+Running React Doctor against the package reveals the accessibility warning:
+
+```
+$ pnpm dlx react-doctor --lint --verbose features/admin.flow-builder-core.v1 2>&1 | grep -A 5 "mouse"
+```
+
+```
+⚠ Accessibility: mouse-events-have-key-events
+  Keyboard users miss this `onMouseOver` because it only fires with a mouse,
+  so add an `onFocus` handler too.
+  → Pair mouse events with keyboard ones so keyboard users are not left out.
+
+  components/validation-panel/validation-error-boundary.tsx:114-115
+```
+
+- **My findings:** React Doctor isn't included in the devDependencies of the project. Some external entity ran React Doctor and generated the various GitHub issues based off of the resulting warnings/errors.
 
 ---
 
@@ -60,24 +75,23 @@ This impacts the `validation-error-boundary.tsx` component which is located at `
 
 ### Analysis
 
-[Your analysis of the root cause - what's causing the issue?]
+A React component has functionality associated with the mouseOver and mouseOff events. The same functionality should exist for users of the component who are interacting with it via a keyboard. This involves doing the same thing for the keyboard interactions.
 
 ### Proposed Solution
 
-[High-level description of your fix approach]
+Add the current mouseOver and mouseOff functionality to additional props for onFocus and onBlur.
 
 ### Implementation Plan
 
 Using UMPIRE framework (adapted):
 
-**Understand:** [Restate the problem]
+**Understand:** Mouse events should have key events.
 
-**Match:** [What similar patterns/solutions exist in the codebase?]
+**Match:** N/A
 
-**Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+**Plan:** 
+1. Add onFocus and onBlur props to the div in the file
+2. Copy the onMouseOver and onMouseOff functionality to these new props
 
 **Implement:** [Link to your branch/commits as you work]
 
