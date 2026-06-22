@@ -4,7 +4,7 @@
 **Contribution Number:** 1
 **Student:** Richard Gabelman 
 **Issue:** [\[GitHub issue link\] ](https://github.com/wso2/product-is/issues/27902) 
-**Status:** Phase 2 Complete
+**Status:** Phase 3 Complete
 
 ---
 
@@ -93,38 +93,27 @@ Using UMPIRE framework (adapted):
 1. Add onFocus and onBlur props to the div in the file
 2. Copy the onMouseOver and onMouseOff functionality to these new props
 
-**Implement:** [Link to your branch/commits as you work]
+**Implement:** https://github.com/RichardGabelman/identity-apps/tree/fix/issue-27902-mouse-events-have-key-events
 
-**Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
+**Review:** Follows project contribution guidelines
 
-**Evaluate:** [How will you verify it works?]
+**Evaluate:** I will run React Doctor on the related file and will confirm it works when no warning is produced.
 
 ---
 
 ## Testing Strategy
 
-### Unit Tests
-
-- [ ] Test case 1: [Description]
-- [ ] Test case 2: [Description]
-- [ ] Test case 3: [Description]
-
-### Integration Tests
-
-- [ ] Integration scenario 1
-- [ ] Integration scenario 2
-
 ### Manual Testing
 
-[What you tested manually and results]
+I installed React Doctor and will run it on the related file. A "clean" report indicating no warnings or errors will indicate the fix was successful.
 
 ---
 
 ## Implementation Notes
 
-### Week [X] Progress
+### Week 3 Progress
 
-[What you built this week, challenges faced, decisions made]
+I made my first set of changes. I pushed my branch and opened a pull request on the main repository. I received an automated AI pull request review that indicated an additional change needed to occur for my original changes to work. I then added a new commit with those changes and updated my pull request. Currently awaiting human review.
 
 ### Week [Y] Progress
 
@@ -132,23 +121,55 @@ Using UMPIRE framework (adapted):
 
 ### Code Changes
 
-- **Files modified:** [List]
-- **Key commits:** [Links to important commits]
-- **Approach decisions:** [Why you chose certain approaches]
+- **File modified:** 
+
+```features/admin.flow-builder-core.v1/components/validation-panel/validation-error-boundary.tsx```
+- **Key commits:**
+[Original change](https://github.com/wso2/identity-apps/pull/10407/changes/6ee4ece1b80d7b3b2ea9d89b1b967c28b399589b) 
+|
+[Additional commit with changes satisfying automated pr review](https://github.com/wso2/identity-apps/pull/10407/changes/843f5c00aec0ecddb25e13f93fc3e6d33eb46772)
+- **Approach decisions:** N/A
 
 ---
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when submitted]
+**PR Link:** https://github.com/wso2/identity-apps/pull/10407
 
-**PR Description:** [Draft or final PR description - much of the content above can be adapted]
+**PR Description:** They provided a PR template that I modified due to the brevity of the changes I made.
+
+```
+Purpose
+Fix react-doctor/mouse-events-have-key-events accessibility warning by pairing onMouseOver and onMouseOut handlers with their keyboard equivalents onFocus and onBlur in ValidationErrorBoundary.
+
+Related Issues
+#27902
+Related PRs
+N/A
+Checklist
+ e2e cypress tests locally verified. (for internal contributers)
+ Manually ran React Doctor and the warning no longer appears
+ UX/UI review done on the final implementation.
+ Documentation provided. (Add links if there are any)
+ Relevant backend changes deployed and verified
+ Unit tests provided. (Add links if there are any)
+ Integration tests provided. (Add links if there are any)
+Security checks
+ Followed secure coding standards in http://wso2.com/technical-reports/wso2-secure-engineering-guidelines
+ Ran FindSecurityBugs plugin and verified report
+ Confirmed that this PR doesn't commit any keys, passwords, tokens, usernames, or other secrets
+Developer Checklist (Mandatory)
+ Complete the Developer Checklist in the related product-is issue to track any behavioral change or migration impact.
+No behavioural change
+No migration impact
+No new configuration introduced
+```
 
 **Maintainer Feedback:**
-- [Date]: [Summary of feedback received]
-- [Date]: [How you addressed it]
+- [June 14th, 2026]: (automated PR review) Keyboard accessibility additionals wouldn't work when the div in question could not be 'tabbed' to. Divs don't have a tab-index by default.
+- [June 14th, 2026]: Added an additional commit to my PR that conditionally adds a tab index to the div, provided there was a notification.
 
-**Status:** [Awaiting review / Iterating / Approved / Merged]
+**Status:** [Awaiting review]
 
 ---
 
