@@ -4,7 +4,7 @@
 **Contribution Number:** 1
 **Student:** Richard Gabelman 
 **Issue:** [\[GitHub issue link\] ](https://github.com/wso2/product-is/issues/27902) 
-**Status:** Phase 3 Complete
+**Status:** Phase 4 Complete
 
 ---
 
@@ -115,9 +115,9 @@ I installed React Doctor and will run it on the related file. A "clean" report i
 
 I made my first set of changes. I pushed my branch and opened a pull request on the main repository. I received an automated AI pull request review that indicated an additional change needed to occur for my original changes to work. I then added a new commit with those changes and updated my pull request. Currently awaiting human review.
 
-### Week [Y] Progress
+### Week 4 Progress
 
-[Continue documenting as you work]
+Still awaiting human review on my pr. I've begun the process of looking for my next contribution opportunity.
 
 ### Code Changes
 
@@ -169,7 +169,7 @@ No new configuration introduced
 - [June 14th, 2026]: (automated PR review) Keyboard accessibility additionals wouldn't work when the div in question could not be 'tabbed' to. Divs don't have a tab-index by default.
 - [June 14th, 2026]: Added an additional commit to my PR that conditionally adds a tab index to the div, provided there was a notification.
 
-**Status:** [Awaiting review]
+**Status:** Awaiting review
 
 ---
 
