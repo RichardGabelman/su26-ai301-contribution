@@ -4,7 +4,7 @@
 **Contribution Number:** 2 
 **Student:** Richard Gabelman 
 **Issue:** [\[GitHub issue link\]](https://github.com/HHS/simpler-grants-gov/issues/5289)
-**Status:** Phase I [Complete]
+**Status:** Phase 2 Complete
 
 ---
 
@@ -20,19 +20,19 @@
 
 ### Problem Description
 
-[In your own words, what's broken or missing?]
+According to the issue description, when building the frontend application, a warning appears indicating that some data is old and that a command needs to be run to update the data. 
 
 ### Expected Behavior
 
-[What should happen?]
+Building the frontend should surface no warning indicating that the browsers data is old.
 
 ### Current Behavior
 
-[What actually happens?]
+I have tried to replicate the issue by building the frontend myself. I followed the instructions in their Development.md for building the frontend locally. I was successful in getting the frontend to build but did not see the warning described in the issue.
 
 ### Affected Components
 
-[Which parts of the codebase are involved?]
+The frontend application which is a specific directory in their monorepo. This impacts the build process specifically.
 
 ---
 
@@ -40,19 +40,44 @@
 
 ### Environment Setup
 
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
+I made sure my node version matched the node version as specified in the Development.md which required moving to an older version.
 
 ### Steps to Reproduce
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+1. Clone repo
+2. Go to the frontend directory of the monorepo
+3. ```npm install```
+4. ```npm run local```
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** [Link to commit in your fork]
-- **Screenshots/logs:** [If applicable]
-- **My findings:** [What you discovered during reproduction]
+- **Commit showing reproduction:** It's not something that can be reproduced in a commit, it's a warning surfaced in the build process. Here is my branch in the forked repo: 
+https://github.com/RichardGabelman/simpler-grants-gov/tree/RichardGabelman/5289-update-browserlist
+- **Screenshots/logs:**
+```
+apollo@DESKTOP-I5JVOAJ:~/repos/simpler-grants-gov/frontend$ npm run local
+npm warn Unknown user config "min-release-age". This will stop working in the next major version of npm.
+
+> frontend@0.1.0 local
+> ENVIRONMENT=local NEW_RELIC_ENABLED=false next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.255.255.254:3000
+- Environments: .env.development
+✓ Ready in 295ms
+⚠ `eslint` configuration in next.config.js is no longer supported. See more info here: https://nextjs.org/docs/app/api-reference/cli/next#next-lint-options
+⚠ Invalid next.config.js options detected:
+⚠     Unrecognized key(s) in object: 'api', 'eslint'
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+- Experiments (use with caution):
+  · proxyClientMaxBodySize: "2000mb"
+  · serverActions
+  ✓ testProxy
+
+
+```
+- **My findings:** The warning identified in the Issue Description did not appear. I have since commented on the issue description inquiring if the warning was still appearing for others. I also inquired as to whether this may be an intermittent issue that could be fixed with a recurring script.
 
 ---
 
@@ -60,30 +85,34 @@
 
 ### Analysis
 
-[Your analysis of the root cause - what's causing the issue?]
+I cannot reproduce the issue so I am not sure at this point. My belief is that this may be something that occurs when the ```package-lock.json``` goes awhile without being regenerated.
+
+is incidentally fixed along other updates and perhaps a dedicated update to this data should be implemented on a recurring basis.
 
 ### Proposed Solution
 
-[High-level description of your fix approach]
+The project already has a Renovate script which handles the automatic updating of dependencies. There is a mechanism within Renovate called ```lockFileMaintenance``` in which the ```package-lock.json``` could be periodically refreshed and thus reset the timer on which the warning would appear.
 
 ### Implementation Plan
 
 Using UMPIRE framework (adapted):
 
-**Understand:** [Restate the problem]
+**Understand:** Data used by a dependency will throw a warning when the data hasn't been updated in a certain amount of time.
 
-**Match:** [What similar patterns/solutions exist in the codebase?]
+**Match:** The codebase uses Renovate to automatically update project dependencies.
 
-**Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+**Plan:**
+1. Add the ```lockFileMaintenance``` feature to their existing Renovate setup to periodically refresh the lockfile, which would refresh the data used by the dependency.
 
-**Implement:** [Link to your branch/commits as you work]
+**Implement:** https://github.com/RichardGabelman/simpler-grants-gov/tree/RichardGabelman/5289-update-browserlist
 
 **Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
+- [x] Branch name follows given convention
+- [x] Pull Request will follow given convention
+- [x] Will assign reviewers applicable to the domain of the pr
+- [x] Will squash merge
 
-**Evaluate:** [How will you verify it works?]
+**Evaluate:** I will reinstall and rebuild the frontend and ensure no errors on rebuild.
 
 ---
 
