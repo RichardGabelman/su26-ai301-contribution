@@ -4,7 +4,7 @@
 **Contribution Number:** 1
 **Student:** Richard Gabelman 
 **Issue:** [\[GitHub issue link\] ](https://github.com/wso2/product-is/issues/27902) 
-**Status:** Phase 4 Complete
+**Status:** Phase 4 Resubmission
 
 ---
 
@@ -136,34 +136,11 @@ Still awaiting human review on my pr. I've begun the process of looking for my n
 
 **PR Link:** https://github.com/wso2/identity-apps/pull/10407
 
-**PR Description:** They provided a PR template that I modified due to the brevity of the changes I made.
+**PR Description:** 
+The validation error boundary component included only mouse-based event handlers which wouldn't occur when users interacted via keyboard. This PR adds the event handling code to the respective keyboard event handlers.
+Fix issue #27902 react-doctor/mouse-events-have-key-events accessibility warning by pairing onMouseOver and onMouseOut handlers with their keyboard equivalents onFocus and onBlur in ValidationErrorBoundary.
 
-```
-Purpose
-Fix react-doctor/mouse-events-have-key-events accessibility warning by pairing onMouseOver and onMouseOut handlers with their keyboard equivalents onFocus and onBlur in ValidationErrorBoundary.
-
-Related Issues
-#27902
-Related PRs
-N/A
-Checklist
- e2e cypress tests locally verified. (for internal contributers)
- Manually ran React Doctor and the warning no longer appears
- UX/UI review done on the final implementation.
- Documentation provided. (Add links if there are any)
- Relevant backend changes deployed and verified
- Unit tests provided. (Add links if there are any)
- Integration tests provided. (Add links if there are any)
-Security checks
- Followed secure coding standards in http://wso2.com/technical-reports/wso2-secure-engineering-guidelines
- Ran FindSecurityBugs plugin and verified report
- Confirmed that this PR doesn't commit any keys, passwords, tokens, usernames, or other secrets
-Developer Checklist (Mandatory)
- Complete the Developer Checklist in the related product-is issue to track any behavioral change or migration impact.
-No behavioural change
-No migration impact
-No new configuration introduced
-```
+(Regarding the screenshot rubric point, it is a frontend change, yes, but one that would be basically invisible in a screenshot. It is an accessibility fix.)
 
 **Maintainer Feedback:**
 - [June 14th, 2026]: (automated PR review) Keyboard accessibility additionals wouldn't work when the div in question could not be 'tabbed' to. Divs don't have a tab-index by default.
@@ -177,20 +154,26 @@ No new configuration introduced
 
 ### Technical Skills Gained
 
-[What you learned technically]
+I learned how to choose a correctly scoped issue.
+I navigated a large monorepo to find the impacted component.
+I downloaded and utilized the third party React component checker (React Doctor) to verify issue reproduction and to verify that the fix addressed the issue.
+I learned the correct Git workflow for proposing changes to existing substantial repositories (fork -> branch -> pr).
 
 ### Challenges Overcome
 
-[What was hard and how you solved it]
+The tool they used to surface the issue (React Doctor) was not provided as a tool within the project.
+I had to find the tool, download it (via the project's dependency manager), and learn how to use it properly in order to surface the same warning (and thus reproduce), fix the issue, use it to confirm the fix worked, and then remove it cleanly so it wouldn't appear as an addition to my PR.
 
 ### What I'd Do Differently Next Time
 
-[Reflection on your process]
+I would include a @ to a maintainer with my PR, or at least add a follow up comment with one, as my PR has gone some time without any message.
+I'd pick an issue that was in a project I used or at least in a domain I knew more about. I indexed too heavily on language/tool familiarity and scope.
 
 ---
 
 ## Resources Used
 
-- [Link to helpful documentation]
-- [Tutorial or Stack Overflow post that helped]
-- [GitHub issues or discussions that helped]
+- Helpful docs:
+    https://github.com/wso2/identity-apps#setup-development-environment
+    https://github.com/wso2/identity-apps?tab=contributing-ov-file
+    https://www.react.doctor/
