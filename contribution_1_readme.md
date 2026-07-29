@@ -4,7 +4,7 @@
 **Contribution Number:** 1
 **Student:** Richard Gabelman 
 **Issue:** [\[GitHub issue link\] ](https://github.com/wso2/product-is/issues/27902) 
-**Status:** Phase 4 Resubmission
+**Status:** Phase 3 Resubmission
 
 ---
 
@@ -105,7 +105,99 @@ Using UMPIRE framework (adapted):
 
 ### Manual Testing
 
-I installed React Doctor and will run it on the related file. A "clean" report indicating no warnings or errors will indicate the fix was successful.
+As per the repository's testing guide: https://github.com/wso2/identity-apps/blob/master/docs/testing/README.md,
+I performed the following:
+
+I ran the linter (ESLint) on the module containing my new code.
+```
+cd features/admin.flow-builder-core.v1/components/validation-panel
+pnpm eslint validation-error-boundary.tsx
+```
+which showed no issues (indicated by no output).
+```
+apollo@DESKTOP-I5JVOAJ:~/repos/identity-apps/features/admin.flow-builder-core.v1/components/validation-panel$ pnpm eslint validation-error-boundary.tsx
+apollo@DESKTOP-I5JVOAJ:~/repos/identity-apps/features/admin.flow-builder-core.v1/components/validation-panel$
+```
+
+------
+
+
+I ran the project's full test suite.
+```
+pnpm install && pnpm build
+pnpm test
+```
+
+That resulted in this output:
+```
+ Test Files  57 failed (57)
+      Tests  no tests
+   Start at  23:01:22
+   Duration  15.61s (transform 675ms, setup 0ms, collect 0ms, tests 0ms, environment 112.40s, prepare 18.00s)
+
+[ELIFECYCLE] Test failed. See above for more details.
+
+
+   ✖  nx run @wso2is/features:test
+   ✔  nx run core:test
+   ✔  nx run theme:test
+   ✔  nx run validation:test
+   ✔  nx run react-components:test
+   ✔  nx run access-control:test
+   ✔  nx run i18n:test
+   ✔  nx run myaccount:test
+   ✔  nx run console:test
+
+———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+ NX   Ran target test for 9 projects (23s)
+
+   ✔  8/9 succeeded [0 read from cache]
+
+   ✖  1/9 targets failed, including the following:
+
+      - nx run @wso2is/features:test
+
+
+
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Test failed. See above for more details.
+```
+which was initially concerning but running the same test suite on the master branch with none of my changes produced the same result, and thus indicates the failures are unrelated to my changes. The feature folder I'm working in ```features/admin.flow-builder-core.v1``` doesn't even contain a test file.
+
+-----
+
+As per my issue, the testing I peformed manually to ensure issue rectification was the following:
+
+- The issue was initially surfaced via the running of React Doctor. https://www.react.doctor/
+- I installed React Doctor (as it is not considered a project dependency), and ran it on the affected file.
+
+```
+$ pnpm dlx react-doctor --lint --verbose features/admin.flow-builder-core.v1 2>&1 | grep -A 5 "mouse"
+```
+which surfaced this warning:
+```
+⚠ Accessibility: mouse-events-have-key-events
+  Keyboard users miss this `onMouseOver` because it only fires with a mouse,
+  so add an `onFocus` handler too.
+  → Pair mouse events with keyboard ones so keyboard users are not left out.
+
+  components/validation-panel/validation-error-boundary.tsx:114-115
+```
+Following my fix, I re-ran the command:
+```
+$ pnpm dlx react-doctor --lint --verbose features/admin.flow-builder-core.v1 2>&1 | grep -A 5 "mouse"
+```
+which produced this output:
+```
+apollo@DESKTOP-I5JVOAJ:~/repos/identity-apps$ pnpm dlx react-doctor --lint --verbose features/admin.flow-builder-core.v1 2>&1 | grep -A 5 "mouse"
+❯   Changed files on fix/issue-27902-mouse-events-have-key-events (3) - Compare against master from the branch merge-base
+✔ Choose what to scan › Changed files on fix/issue-27902-mouse-events-have-key-events (3)
+Scanning changes: fix/issue-27902-mouse-events-have-key-events → master
+
+```
+which showed no remaining issues (indicated by no output).
 
 ---
 
